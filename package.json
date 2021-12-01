@@ -1,0 +1,38 @@
+{
+	"name": "order_template",
+	"version": "1.0.0",
+	"description": "subiz order template",
+	"main": "index.js",
+	"scripts": {
+		"dev": "npx webpack serve --config webpack.conf.js",
+		"ssr": "render for server",
+		"build": "npx webpack --config webpack.conf.js"
+	},
+	"dependencies": {
+		"@babel/core": "^7.16.0",
+		"@subiz/flow": "^1.0.9",
+		"babel-loader": "^8.2.3",
+		"@subiz/ajax": "^3.0.12",
+		"core-js": "^3.19.2",
+		"file-loader": "^6.2.0",
+		"preact": "^10.6.0"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.16.0",
+		"@babel/plugin-proposal-class-properties": "^7.16.0",
+		"@babel/plugin-transform-react-jsx": "^7.16.0",
+		"@babel/preset-env": "^7.16.4",
+		"babel-plugin-syntax-jsx": "^6.18.0",
+		"html-webpack-plugin": "^5.5.0",
+		"webpack": "^5.64.4",
+		"webpack-bundle-analyzer": "^4.5.0",
+		"webpack-cli": "^4.9.1",
+		"webpack-dev-server": "^4.6.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "github.com/subiz/order_template"
+	},
+	"author": "Pham Kieu Thanh",
+	"license": "MIT"
+}
