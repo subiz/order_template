@@ -2,11 +2,18 @@ import {h, render, createRef} from 'preact'
 import OrderTemplateComponent from './template.js'
 const ajax = require('@subiz/ajax')
 
-let langMessages = {}
-let downloadLock = false
+// add fonts
+var link = document.createElement('link')
+link.setAttribute('rel', 'stylesheet')
+link.setAttribute(
+	'href',
+	'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inconsolata:wght@300;400;500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Signika:wght@300;400;500;600&family=Source+Serif+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Yeseva+One&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap',
+)
+document.head.appendChild(link)
 
 export default class OrderTemplate {
 	constructor() {
+		link
 		this.show = false
 		// auto detect language first
 
@@ -19,13 +26,10 @@ export default class OrderTemplate {
 			return message['message']
 		}
 
-		this.t.i18n = (i18nText) => {
+		this.t.i18n = (i18nText, fallback) => {
 			if (!i18nText) return ''
-			let fallbackLocale = plugin.locale || this.account.locale || 'vi-VN'
-			fallbackLocale = fallbackLocale.replace('-', '_')
 			let locale = this.locale.replace('-', '_')
-
-			return i18nText[locale] || i18nText[fallbackLocale]
+			return i18nText[locale] || fallback
 		}
 		this.t.locale = () => this.locale
 	}
@@ -60,7 +64,6 @@ export default class OrderTemplate {
 		this.show = false
 		this._render() // hide plugin first
 
-		console.log("SSSSSSSSSSSSS", this.account.id, locale)
 		await downloadLanguage(this.account.id, locale)
 
 		this.show = true
@@ -79,8 +82,10 @@ export default class OrderTemplate {
 	}
 }
 
+let langMessages = {}
+let downloadLock = false
+
 function getLocaleContent(accid, locale) {
-	console.log("HHH")
 	return ajax
 		.setBaseUrl('https://api.subiz.com.vn/4.0/')
 		.withCredentials(true)

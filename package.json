@@ -10,10 +10,12 @@
 	},
 	"dependencies": {
 		"@babel/core": "^7.16.0",
-		"@subiz/flow": "^1.0.9",
-		"babel-loader": "^8.2.3",
 		"@subiz/ajax": "^3.0.12",
+		"@subiz/flow": "^1.0.9",
+		"accounting": "^0.4.1",
+		"babel-loader": "^8.2.3",
 		"core-js": "^3.19.2",
+		"date-fns": "^2.27.0",
 		"file-loader": "^6.2.0",
 		"preact": "^10.6.0"
 	},

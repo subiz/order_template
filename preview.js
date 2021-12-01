@@ -137,6 +137,20 @@ template.update(
 	{
 		primary_color: 'black',
 		secondary_color: 'black',
+		font_family: 'Signika',
+		number_font_family: 'Inconsolata',
+		tagline: 'Strike for inovation',
+		i18n_tagline: {
+			vi_VN: 'Cải tiến không ngừng',
+		},
+		terms_and_conditions: 'You must pay before the due date or being charge for 10% per day',
+		i18n_terms_and_conditions: {
+			vi_VN: 'Bạn phải trả đúng hạn, không thì tính lãi 10% một ngày',
+		},
+		signature: 'Thanks for buying with us',
+		i18n_signature: {
+			vi_VN: 'Cảm ơn bạn đã mua hàng',
+		},
 	},
 	'vi-VN',
 )
