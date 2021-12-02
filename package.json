@@ -2,16 +2,14 @@
 	"name": "order_template",
 	"version": "1.0.0",
 	"description": "subiz order template",
-	"main": "index.js",
+	"main": "./compiled/main.js",
 	"scripts": {
 		"dev": "npx webpack serve --config webpack.conf.js",
-		"ssr": "render for server",
-		"build": "npx webpack --config webpack.conf.js"
+		"build": "npx webpack --config webpack.conf.js && rm -rf compiled && npx babel --out-dir=compiled src"
 	},
 	"dependencies": {
 		"@babel/core": "^7.16.0",
 		"@subiz/ajax": "^3.0.12",
-		"@subiz/flow": "^1.0.9",
 		"accounting": "^0.4.1",
 		"babel-loader": "^8.2.3",
 		"core-js": "^3.19.2",
@@ -26,6 +24,7 @@
 		"@babel/preset-env": "^7.16.4",
 		"babel-plugin-syntax-jsx": "^6.18.0",
 		"html-webpack-plugin": "^5.5.0",
+		"puppeteer": "^12.0.1",
 		"webpack": "^5.64.4",
 		"webpack-bundle-analyzer": "^4.5.0",
 		"webpack-cli": "^4.9.1",

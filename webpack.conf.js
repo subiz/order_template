@@ -1,21 +1,13 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-	mode: 'development',
-	entry: {
-		preview: './preview.js',
-		// ssr: './ssr.js',
-	},
-	output: {publicPath: '/'},
+	mode: 'production',
+	entry: {index: './index.js'},
+	output: {publicPath: './'}, // so we can access html locally
 	devServer: {port: 8089, host: '0.0.0.0', hot: false, liveReload: false},
 	optimization: {minimize: false},
 	plugins: [
-		new HtmlWebpackPlugin({
-			filename: './preview.html',
-			template: './preview.html',
-			inject: 'body',
-			chunks: ['preview'],
-		}),
+		new HtmlWebpackPlugin({filename: './index.html', template: './index.html', inject: 'body', chunks: ['index']}),
 	],
 	module: {
 		rules: [

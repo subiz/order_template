@@ -1,114 +1,164 @@
-import {h, render, createRef} from 'preact'
-import OrderTemplateComponent from './template.js'
-const ajax = require('@subiz/ajax')
+import OrderTemplate from './src/main.js'
 
-// add fonts
-var link = document.createElement('link')
-link.setAttribute('rel', 'stylesheet')
-link.setAttribute(
-	'href',
-	'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inconsolata:wght@300;400;500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Signika:wght@300;400;500;600&family=Source+Serif+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Yeseva+One&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap',
-)
-document.head.appendChild(link)
+let template = new OrderTemplate()
 
-export default class OrderTemplate {
-	constructor() {
-		link
-		this.show = false
-		// auto detect language first
-
-		this.t = (key) => {
-			if (this.locale === 'debug') return `{{${key}}}`
-
-			let messages = langMessages[this.locale] || []
-			let message = messages.find((message) => message.key === key)
-			if (!message || !message['message']) return '{' + key + '}'
-			return message['message']
-		}
-
-		this.t.i18n = (i18nText, fallback) => {
-			if (!i18nText) return ''
-			let locale = this.locale.replace('-', '_')
-			return i18nText[locale] || fallback
-		}
-		this.t.locale = () => this.locale
-	}
-
-	mount($container) {
-		this.$div = document.createElement('div')
-		// $div.id = plugin.id
-		$container.appendChild(this.$div) // use body as container
-		this.show = true
-		this._render()
-	}
-
-	_render() {
-		if (!this.$div) return null
-		if (!this.show) return null
-
-		render(
-			<OrderTemplateComponent
-				account={this.account}
-				template={this.template}
-				order={this.order}
-				locale={this.locale}
-				t={this.t}
-			/>,
-			this.$div,
-		)
-	}
-
-	_setLocale = async (locale) => {
-		if (this.locale === locale) return
-		// detect overrider plugin change language
-		this.show = false
-		this._render() // hide plugin first
-
-		await downloadLanguage(this.account.id, locale)
-
-		this.show = true
-		this._render()
-	}
-
-	update(account, order, template, locale) {
-		this.order = order
-		this.account = account
-		this.template = template
-
-		this._setLocale(locale)
-		this.locale = locale
-
-		this._render()
-	}
+let hash = document.location.hash.substr(1)
+let input = {
+	account: {
+		id: 'acqsulrowbxiugvginhw',
+		name: 'Subiz',
+		logo_url: 'https://vcdn.subiz-cdn.com/file/firegebifshhuufpemtr-mau-logo-tra-sua-dep-va-de-thuong9.jpg',
+		logo_url: 'https://subiz.com.vn/blog/wp-content/themes/subiz_blog_2016/images/logo.png',
+		owner_id: 'agqygncqpyaxoujpfc',
+		state: 'activated',
+		confirmed: 0,
+		city: 'Hà Nội',
+		zip_code: 10000,
+		tax_id: '123',
+		facebook: 'https://www.facebook.com/subizdotcom/',
+		twitter: '',
+		phone: '0987814392',
+		address: '283 Cầu Giấy,  Hà Nội',
+		url: '',
+		lang: 'vi',
+		timezone: '+07:00',
+		country: 'VN',
+		date_format: 'YYYY/MM/DD',
+		locale: 'vi-VN',
+		supported_locales: ['en-US', 'ja-JP', 'vi-VN'],
+		currency: 'VND',
+	},
+	order: {
+		account_id: 'acqsulrowbxiugvginhw',
+		id: '211562',
+		shipping: {
+			address: {
+				account_id: 'acqsulrowbxiugvginhw',
+				user_id: 'usrefmjqwhamyjktbqghd',
+				id: 'adrejufuonskkmksvpci',
+				fullname: 'Mrs. Kiều Thanh',
+				email: 'thanh@gmail.com',
+				phone: '0364821895',
+				street: '222 Khương Trung',
+				district: 'Thanh Xuân',
+				region: 'Hà Nội',
+				created: 1638353944390,
+				created_by: 'agqygncqpyaxoujpfc',
+				updated: 1638353944390,
+				updated_by: 'agqygncqpyaxoujpfc',
+			},
+		},
+		note: 'Không dùng túi bóng để bảo vệ môi trường',
+		due_date: 1638348497687,
+		status: 'new',
+		payment_status: 'unpaid',
+		created: 1638348498737,
+		created_by: 'agqygncqpyaxoujpfc',
+		updated: 1638353997344,
+		updated_by: 'agqygncqpyaxoujpfc',
+		items: [
+			{
+				quantity: 1,
+				note: 'Khách cần lấy hàng ngay',
+				product: {
+					account_id: 'acqsulrowbxiugvginhw',
+					id: '2110082',
+					product_group_id: '2110082',
+					left_product_id: '2110082',
+					right_product_id: '2110082',
+					url: 'https://baohanhone.com/products/man-hinh-apple-watch-s8',
+					description: 'Sản phẩm này bán không nhiều nữa',
+					name: 'Màn Hình Apple Watch S8',
+					i18n_name: {
+						vi_VN: 'Màn Hình Apple Watch S8',
+					},
+					created: 1637912799523,
+					updated: 1637912799523,
+					created_by: 'agqsulrowbxilyzhds',
+					updated_by: 'agqsulrowbxilyzhds',
+					image: 'https://vcdn.subiz-cdn.com/file/firegqzhvpwbzdudkxfd_acqsulrowbxiugvginhw',
+					images: ['https://vcdn.subiz-cdn.com/file/firegqzhvpwbzdudkxfd_acqsulrowbxiugvginhw'],
+					visibility: 'published',
+					sku: 'dienthoainew_5265',
+					price: 6490000,
+					stock: 84,
+				},
+				total: 6490000,
+				fpv_total: 6490000195584,
+			},
+			{
+				quantity: 1,
+				product: {
+					account_id: 'acqsulrowbxiugvginhw',
+					id: '2110080',
+					product_group_id: '2110080',
+					left_product_id: '2110080',
+					right_product_id: '2110080',
+					url: 'https://baohanhone.com/products/apple-watch-series-4-duoc-nang-cap-nhu-the-nao-so-voi-watch-series-3',
+					name: 'Apple Watch Series 4 Được Nâng Cấp Như Thế Nào so Với Watch Series 3',
+					i18n_name: {
+						vi_VN: 'Apple Watch Series 4 Được Nâng Cấp Như Thế Nào so Với Watch Series 3',
+					},
+					created: 1637912799446,
+					updated: 1637912799446,
+					created_by: 'agqsulrowbxilyzhds',
+					updated_by: 'agqsulrowbxilyzhds',
+					image: 'https://vcdn.subiz-cdn.com/file/firegqoaunmehylnqfts_acqsulrowbxiugvginhw',
+					images: ['https://vcdn.subiz-cdn.com/file/firegqoaunmehylnqfts_acqsulrowbxiugvginhw'],
+					visibility: 'published',
+					sku: 'apple_2159',
+					price: 3200000,
+					stock: 9,
+				},
+				total: 3200000,
+				fpv_total: 3199999934464,
+			},
+		],
+		subtotal: 9690000,
+		fpv_subtotal: 9689999867904,
+		total: 9690000,
+		fpv_total: 9689999867904,
+		pos_id: 'psreakoakjggfhlibtu',
+		channel: 'subiz',
+		channel_touchpoint: 'localhost',
+		releated_conversations: ['csrefmjrutfizfnzev'],
+		user: {
+			id: 'usrefmjqwhamyjktbqghd',
+			attributes: [
+				{key: 'created', datetime: '2021-11-24T09:37:25Z'},
+				{key: 'fullname', text: 'Mrs. Kiều Thanh'},
+				{key: 'phones', text: '0364821895'},
+				{key: 'emails', text: 'thanh@gmail.com'},
+			],
+			lead_owners: ['agqygncqpyaxoujpfc'],
+		},
+		currency_rate: 1,
+	},
+	template: {
+		primary_color: '#759102',
+		secondary_color: 'white',
+		font_family: 'Signika',
+		number_font_family: 'Signika',
+		tagline: 'Strike for inovation',
+		i18n_tagline: {
+			vi_VN: 'Cải tiến không ngừng',
+		},
+		terms_and_conditions: 'You must pay before the due date or being charge for 10% per day',
+		i18n_terms_and_conditions: {
+			vi_VN: 'Bạn phải trả đúng hạn, không thì tính lãi 10% một ngày',
+		},
+		signature: 'Thanks for buying with us',
+		i18n_signature: {
+			vi_VN: 'Cảm ơn bạn đã mua hàng',
+		},
+	},
+	locale: 'vi-VN',
 }
-
-let langMessages = {}
-let downloadLock = false
-
-function getLocaleContent(accid, locale) {
-	return ajax
-		.setBaseUrl('https://api.subiz.com.vn/4.0/')
-		.withCredentials(true)
-		.addQuery('v', 6)
-		.setParser('json')
-		.get(`/accounts/${accid}/locales/${locale}`)
+try {
+	if (hash) input = JSON.parse(decodeURIComponent(atob(hash)))
+} catch (e) {
+	alert('ERR, INVALID HASH')
+	console.log('INPUT ERR', e)
 }
-
-function downloadLanguage(accid, locale, force) {
-	if (downloadLock)
-		return new Promise((resolve) => setTimeout(() => downloadLanguage(accid, locale, force).then(resolve), 100))
-
-	downloadLock = true
-	// let locale = getLocale()
-	let messages
-	if (locale === 'debug' || (langMessages[locale] && !force)) {
-		downloadLock = false
-		return Promise.resolve()
-	}
-
-	return getLocaleContent(accid, locale).then((res) => {
-		downloadLock = false
-		messages = res.body.messages || []
-		langMessages[locale] = messages
-	})
-}
+template.update(input.account, input.order, input.template, input.locale)
+template.mount(document.getElementById('app'))
