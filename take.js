@@ -24,11 +24,11 @@ async function take() {
 	let accname = 'Subiz'
 	if (input && input.account && input.account.name) accname = escapeHtml(input.account.name)
 
-	await page.goto('file:///home/thanh/src/order_template/dist/index.html#' + inputBase64, {
+	await page.goto('file://' + __dirname + '/dist/index.html#' + inputBase64, {
 		waitUntil: 'networkidle2',
 	})
 	await page.addStyleTag({content: '@page { size: auto; }'})
-	let out = './generated/' + makeid(20) + '.pdf'
+	let out = makeid(20) + '.pdf'
 	const pdf = await page.pdf({
 		size: 'A4',
 		path: out,
