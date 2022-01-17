@@ -1,6 +1,6 @@
 {
 	"name": "@subiz/order_template",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "subiz order template",
 	"main": "./compiled/main.js",
 	"scripts": {
@@ -10,25 +10,25 @@
 	"dependencies": {
 		"@subiz/ajax": "^3.0.12",
 		"accounting": "^0.4.1",
-		"date-fns": "^2.27.0",
-		"preact": "^10.6.0"
+		"date-fns": "^2.28.0",
+		"preact": "^10.6.4"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.16.0",
-		"core-js": "^3.19.2",
-		"@babel/cli": "^7.16.0",
-		"@babel/plugin-proposal-class-properties": "^7.16.0",
-		"@babel/plugin-transform-react-jsx": "^7.16.0",
-		"@babel/preset-env": "^7.16.4",
+		"@babel/core": "^7.16.7",
+		"core-js": "^3.20.3",
+		"@babel/cli": "^7.16.8",
+		"@babel/plugin-proposal-class-properties": "^7.16.7",
+		"@babel/plugin-transform-react-jsx": "^7.16.7",
+		"@babel/preset-env": "^7.16.8",
 		"babel-loader": "^8.2.3",
 		"babel-plugin-syntax-jsx": "^6.18.0",
 		"file-loader": "^6.2.0",
 		"html-webpack-plugin": "^5.5.0",
-		"puppeteer": "^12.0.1",
-		"webpack": "^5.64.4",
+		"puppeteer": "^13.0.1",
+		"webpack": "^5.66.0",
 		"webpack-bundle-analyzer": "^4.5.0",
 		"webpack-cli": "^4.9.1",
-		"webpack-dev-server": "^4.6.0"
+		"webpack-dev-server": "^4.7.3"
 	},
 	"repository": {
 		"type": "git",
