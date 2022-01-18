@@ -4,8 +4,8 @@
 	"description": "subiz order template",
 	"main": "./compiled/main.js",
 	"scripts": {
-		"dev": "npx webpack serve --config webpack.conf.js",
-		"build": "npx webpack --config webpack.conf.js && rm -rf compiled && npx babel --out-dir=compiled src"
+		"dev": "ENV=dev npx webpack serve --config webpack.conf.js",
+		"build": "ENV=prod npx webpack --config webpack.conf.js && rm -rf compiled && npx babel --out-dir=compiled src"
 	},
 	"dependencies": {
 		"@subiz/ajax": "^3.0.12",
@@ -24,7 +24,7 @@
 		"babel-plugin-syntax-jsx": "^6.18.0",
 		"file-loader": "^6.2.0",
 		"html-webpack-plugin": "^5.5.0",
-		"puppeteer": "^13.0.1",
+		"puppeteer": "^13.1.0",
 		"webpack": "^5.66.0",
 		"webpack-bundle-analyzer": "^4.5.0",
 		"webpack-cli": "^4.9.1",
