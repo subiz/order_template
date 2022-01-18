@@ -1242,102 +1242,6 @@ function subMilliseconds(dirtyDate, dirtyAmount) {
   var amount = toInteger(dirtyAmount);
   return addMilliseconds(dirtyDate, -amount);
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/addLeadingZeros/index.js
-function addLeadingZeros(number, targetLength) {
-  var sign = number < 0 ? '-' : '';
-  var output = Math.abs(number).toString();
-
-  while (output.length < targetLength) {
-    output = '0' + output;
-  }
-
-  return sign + output;
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/format/lightFormatters/index.js
-
-/*
- * |     | Unit                           |     | Unit                           |
- * |-----|--------------------------------|-----|--------------------------------|
- * |  a  | AM, PM                         |  A* |                                |
- * |  d  | Day of month                   |  D  |                                |
- * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
- * |  m  | Minute                         |  M  | Month                          |
- * |  s  | Second                         |  S  | Fraction of second             |
- * |  y  | Year (abs)                     |  Y  |                                |
- *
- * Letters marked by * are not implemented but reserved by Unicode standard.
- */
-
-var formatters = {
-  // Year
-  y: function (date, token) {
-    // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_tokens
-    // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
-    // |----------|-------|----|-------|-------|-------|
-    // | AD 1     |     1 | 01 |   001 |  0001 | 00001 |
-    // | AD 12    |    12 | 12 |   012 |  0012 | 00012 |
-    // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
-    // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
-    // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
-    var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
-
-    var year = signedYear > 0 ? signedYear : 1 - signedYear;
-    return addLeadingZeros(token === 'yy' ? year % 100 : year, token.length);
-  },
-  // Month
-  M: function (date, token) {
-    var month = date.getUTCMonth();
-    return token === 'M' ? String(month + 1) : addLeadingZeros(month + 1, 2);
-  },
-  // Day of the month
-  d: function (date, token) {
-    return addLeadingZeros(date.getUTCDate(), token.length);
-  },
-  // AM or PM
-  a: function (date, token) {
-    var dayPeriodEnumValue = date.getUTCHours() / 12 >= 1 ? 'pm' : 'am';
-
-    switch (token) {
-      case 'a':
-      case 'aa':
-        return dayPeriodEnumValue.toUpperCase();
-
-      case 'aaa':
-        return dayPeriodEnumValue;
-
-      case 'aaaaa':
-        return dayPeriodEnumValue[0];
-
-      case 'aaaa':
-      default:
-        return dayPeriodEnumValue === 'am' ? 'a.m.' : 'p.m.';
-    }
-  },
-  // Hour [1-12]
-  h: function (date, token) {
-    return addLeadingZeros(date.getUTCHours() % 12 || 12, token.length);
-  },
-  // Hour [0-23]
-  H: function (date, token) {
-    return addLeadingZeros(date.getUTCHours(), token.length);
-  },
-  // Minute
-  m: function (date, token) {
-    return addLeadingZeros(date.getUTCMinutes(), token.length);
-  },
-  // Second
-  s: function (date, token) {
-    return addLeadingZeros(date.getUTCSeconds(), token.length);
-  },
-  // Fraction of second
-  S: function (date, token) {
-    var numberOfDigits = token.length;
-    var milliseconds = date.getUTCMilliseconds();
-    var fractionalSeconds = Math.floor(milliseconds * Math.pow(10, numberOfDigits - 3));
-    return addLeadingZeros(fractionalSeconds, token.length);
-  }
-};
-/* harmony default export */ const lightFormatters = (formatters);
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getUTCDayOfYear/index.js
 
 
@@ -1529,6 +1433,102 @@ function getUTCWeek(dirtyDate, options) {
 
   return Math.round(diff / getUTCWeek_MILLISECONDS_IN_WEEK) + 1;
 }
+;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/addLeadingZeros/index.js
+function addLeadingZeros(number, targetLength) {
+  var sign = number < 0 ? '-' : '';
+  var output = Math.abs(number).toString();
+
+  while (output.length < targetLength) {
+    output = '0' + output;
+  }
+
+  return sign + output;
+}
+;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/format/lightFormatters/index.js
+
+/*
+ * |     | Unit                           |     | Unit                           |
+ * |-----|--------------------------------|-----|--------------------------------|
+ * |  a  | AM, PM                         |  A* |                                |
+ * |  d  | Day of month                   |  D  |                                |
+ * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
+ * |  m  | Minute                         |  M  | Month                          |
+ * |  s  | Second                         |  S  | Fraction of second             |
+ * |  y  | Year (abs)                     |  Y  |                                |
+ *
+ * Letters marked by * are not implemented but reserved by Unicode standard.
+ */
+
+var formatters = {
+  // Year
+  y: function (date, token) {
+    // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_tokens
+    // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
+    // |----------|-------|----|-------|-------|-------|
+    // | AD 1     |     1 | 01 |   001 |  0001 | 00001 |
+    // | AD 12    |    12 | 12 |   012 |  0012 | 00012 |
+    // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
+    // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
+    // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
+    var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
+
+    var year = signedYear > 0 ? signedYear : 1 - signedYear;
+    return addLeadingZeros(token === 'yy' ? year % 100 : year, token.length);
+  },
+  // Month
+  M: function (date, token) {
+    var month = date.getUTCMonth();
+    return token === 'M' ? String(month + 1) : addLeadingZeros(month + 1, 2);
+  },
+  // Day of the month
+  d: function (date, token) {
+    return addLeadingZeros(date.getUTCDate(), token.length);
+  },
+  // AM or PM
+  a: function (date, token) {
+    var dayPeriodEnumValue = date.getUTCHours() / 12 >= 1 ? 'pm' : 'am';
+
+    switch (token) {
+      case 'a':
+      case 'aa':
+        return dayPeriodEnumValue.toUpperCase();
+
+      case 'aaa':
+        return dayPeriodEnumValue;
+
+      case 'aaaaa':
+        return dayPeriodEnumValue[0];
+
+      case 'aaaa':
+      default:
+        return dayPeriodEnumValue === 'am' ? 'a.m.' : 'p.m.';
+    }
+  },
+  // Hour [1-12]
+  h: function (date, token) {
+    return addLeadingZeros(date.getUTCHours() % 12 || 12, token.length);
+  },
+  // Hour [0-23]
+  H: function (date, token) {
+    return addLeadingZeros(date.getUTCHours(), token.length);
+  },
+  // Minute
+  m: function (date, token) {
+    return addLeadingZeros(date.getUTCMinutes(), token.length);
+  },
+  // Second
+  s: function (date, token) {
+    return addLeadingZeros(date.getUTCSeconds(), token.length);
+  },
+  // Fraction of second
+  S: function (date, token) {
+    var numberOfDigits = token.length;
+    var milliseconds = date.getUTCMilliseconds();
+    var fractionalSeconds = Math.floor(milliseconds * Math.pow(10, numberOfDigits - 3));
+    return addLeadingZeros(fractionalSeconds, token.length);
+  }
+};
+/* harmony default export */ const lightFormatters = (formatters);
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/format/formatters/index.js
 
 
@@ -2363,7 +2363,7 @@ var formatters_formatters = {
   }
 };
 
-function formatTimezoneShort(offset, delimiter) {
+function formatTimezoneShort(offset, dirtyDelimiter) {
   var sign = offset > 0 ? '-' : '+';
   var absOffset = Math.abs(offset);
   var hours = Math.floor(absOffset / 60);
@@ -2373,6 +2373,7 @@ function formatTimezoneShort(offset, delimiter) {
     return sign + String(hours);
   }
 
+  var delimiter = dirtyDelimiter || '';
   return sign + String(hours) + delimiter + addLeadingZeros(minutes, 2);
 }
 
@@ -2805,7 +2806,7 @@ var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
  * 8. `YY` and `YYYY` tokens represent week-numbering years but they are often confused with years.
  *    You should enable `options.useAdditionalWeekYearTokens` to use them. See: https://git.io/fxCyr
  *
- * 9. `D` and `DD` tokens represent days of the year but they are ofthen confused with days of the month.
+ * 9. `D` and `DD` tokens represent days of the year but they are often confused with days of the month.
  *    You should enable `options.useAdditionalDayOfYearTokens` to use them. See: https://git.io/fxCyr
  *
  * ### v2.0.0 breaking changes:
@@ -3006,20 +3007,22 @@ function getUserDisplayName(user) {
 var formatNumber = (accounting_default()).formatNumber;
 var formatDate = format;
 ;// CONCATENATED MODULE: ./src/template.js
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 let gstyle = `
-.invoice_sublabel {
-	width: 100px;
+.text__muted {
+	color: #888;
 }
 
-.order_print_label {
-	font-weight: 600;
+.mt-1 {
+margin-top:10px
+}
+
+.invoice_sublabel {
+	font-weight: 400;
 	text-transform: uppercase;
 	font-size: 13px;
-	color: #333;
+	color: #666;
 }
 
 .table.order_print_table {
@@ -3047,302 +3050,6 @@ let gstyle = `
 class Main extends _ {
   constructor(props) {
     super(props);
-
-    _defineProperty(this, "renderPaymentMethod", () => {
-      return v("div", {
-        style: "margin-top: 0.5cm"
-      }, v("div", {
-        style: "display: flex; align-items: center; margin-top: 20px"
-      }, v("div", {
-        class: "order_print_label"
-      }, this.props.t('payment'))), v("div", null, "COD"));
-    });
-
-    _defineProperty(this, "renderSignature", () => {
-      let template = this.props.template;
-      return v("div", {
-        style: "margin-top: 30px"
-      }, v("div", {
-        style: "color: #888"
-      }, this.props.t.i18n(template.i18n_signature, template.signature)));
-    });
-
-    _defineProperty(this, "renderItem", (item, i) => {
-      let template = this.props.template;
-      let product = item.product || {};
-      let total = product.price * item.quantity;
-      let discount = 0;
-
-      if (item.discount_before_tax) {
-        if (item.discount_type == 'percentage') {
-          discount = total * (item.discount_percentage || 0) / 100;
-        } else if (item.discount_type == 'amount') {
-          if (item.discount > 0) discount = item.discount;
-        }
-      }
-
-      total -= discount;
-
-      if (total < 0) {
-        total = 0;
-      }
-
-      let itemtax = item.tax;
-      let tax = '0%';
-      if (itemtax) tax = (itemtax.percentage || 0) + '%';
-      return v("tr", null, v("td", {
-        style: "padding-left: 0; width: 20px; text-align: left"
-      }, i + 1), v("td", {
-        style: "vertical-align: top; padding: 0; white-space: pre-wrap; padding: 10px"
-      }, v("div", null, product.name), v("div", {
-        style: "color: #888"
-      }, item.note)), v("td", {
-        style: `width: 100px; text-align: right; padding: 0; height: 1px; padding: 10px; font-family: ${template.number_font_family}`
-      }, formatNumber(product.price)), v("td", {
-        style: "width: 50px; text-align: center; padding: 0; height: 1px;padding: 10px"
-      }, item.quantity), v("td", {
-        style: `width: 115px; text-align: right; padding-left: 0; padding-right: 0px; overflow: unset;font-family: ${template.number_font_family}`
-      }, formatNumber(total)));
-    });
-
-    _defineProperty(this, "renderItems", () => {
-      let acc = this.props.account;
-      let template = this.props.template;
-      let order = this.props.order;
-      let $header = v("tr", {
-        style: `background: ${template.secondary_color}; color: ${template.primary_color}`
-      }, v("th", {
-        style: "padding-left: 0;width: 20px; text-align: left"
-      }, "#"), v("th", {
-        style: "text-align: left"
-      }, this.props.t('product')), v("th", {
-        style: "width: 100px; text-align: right"
-      }, this.props.t('price')), v("th", {
-        style: "width: 50px; text-align: center"
-      }, this.props.t('qty')), v("th", {
-        style: "padding-right: 0;width: 115px; text-align: right"
-      }, "Th\xE0nh ti\u1EC1n"));
-      let items = order.items || [];
-      let $rows = items.map(this.renderItem);
-      let $adjustment = null;
-      let adjustment = order.adjustment || 0;
-      if (adjustment != 0 || order.adjustment_description) $adjustment = v("div", null, v("div", {
-        style: "margin-top: 5px",
-        title: this.props.t('adjustment_desc')
-      }, this.props.t('adjustment')), v("div", {
-        style: "align-items: center; display: flex; margin-top: 2px"
-      }, v("div", {
-        style: "width: 140px"
-      }, order.adjustment_description || v("span", {
-        style: "color: #888"
-      }, this.props.t('empty'))), v("div", {
-        title: this.props.t('adjustment_desc')
-      }), v("div", {
-        style: "flex: 1",
-        style: "text-align: right"
-      }, formatNumber(adjustment))));
-      let $ship = null;
-
-      if (order.shipping) {
-        $ship = v("div", {
-          style: "display: flex; justify-content: space-between;"
-        }, v("div", {
-          class: "text-truncate"
-        }, this.props.t('shipping_fee')), v("div", {
-          style: `font-family: ${template.number_font_family}`
-        }, formatNumber(order.shipping.fee)));
-      }
-
-      let total = order.total;
-      let subtotal = order.subtotal;
-      let discounttype = order.discount_type || 'percentage';
-      discounttype += order.discount_before_tax ? '_before_tax' : '_after_tax';
-      let discount = 0;
-
-      if (discounttype.startsWith('percentage')) {
-        discount = (order.discount_percentage || 0) / 100;
-      } else if (discounttype.startsWith('amount')) {
-        discount = order.discount;
-      }
-
-      let $note = v("div", {
-        style: "flex: 1; padding: 0"
-      });
-
-      if (order.note) {
-        $note = v("div", {
-          style: "padding: 0; flex: 1"
-        }, v("div", null, this.props.t('note')), v("div", null, order.note));
-      }
-
-      let left = (order.total || 0) - (order.payment_made || 0);
-      if (left <= 0) left = 0;
-      return v("div", {
-        style: "margin-top: 30px; padding: 0px 2cm;"
-      }, v("div", {
-        style: "display: flex;align-items: center; margin-top: 20px; margin-bottom: 5px"
-      }, v("div", {
-        class: "order_print_label"
-      }), v("div", {
-        style: "flex: 1"
-      }), v("div", null, this.props.t('currency'), ": ", order.currency || acc.currency || 'VND')), v("div", null, v("table", {
-        class: "order_print_table table mt-2",
-        cellspacing: "0",
-        cellpadding: "0"
-      }, $header, $rows)), v("div", {
-        class: "page_section",
-        style: "display: flex; margin-top: 10px"
-      }, $note, v("div", {
-        style: "width: 6cm; margin-left: 10px"
-      }, v("div", {
-        style: "display: flex; justify-content: space-between;"
-      }, v("div", null, this.props.t('subtotal')), v("div", {
-        style: `font-family: ${template.number_font_family}`
-      }, formatNumber(subtotal))), v("div", {
-        style: "display: flex; justify-content: space-between; align-items: center"
-      }, v("div", {
-        style: "flex-shrink: 0"
-      }, this.props.t('discount'), "\xA0"), v("div", {
-        style: `font-family: ${template.number_font_family}`
-      }, discount)), $ship, this.renderOrderTax(), $adjustment, v("div", {
-        style: "display: flex; justify-content: space-between;align-items: center; margin-top: 5px; margin-bottom: 10px"
-      }, v("b", null, this.props.t('total')), v("div", {
-        style: `font-weight: 600;font-family: ${template.number_font_family}`
-      }, formatNumber(total))), v("div", {
-        style: "display: flex; justify-content: space-between; "
-      }, v("div", null, this.props.t('paid_state')), v("div", {
-        style: `font-family: ${template.number_font_family}`
-      }, formatNumber(order.payment_made))), v("div", {
-        style: "display: flex; justify-content: space-between; "
-      }, v("div", null, this.props.t('balance_due')), v("div", {
-        style: `font-family: ${template.number_font_family}`
-      }, formatNumber(left))))));
-    });
-
-    _defineProperty(this, "renderOrderTax", () => {
-      let taxDict = {};
-      let priceM = {};
-      let order = this.props.order;
-      let template = this.props.template;
-      let totaltax = 0;
-      let computed_discount = order._computed_discount;
-      let taxM = order._taxM;
-      let subtotal = order.subtotal;
-      if (subtotal == 0) subtotal = 0.001;
-      Object.values(taxM || {}).map(t => {
-        taxDict[t.tax.id] = t.tax;
-        priceM[t.tax.id] = priceM[t.tax.id] || 0;
-        priceM[t.tax.id] += t.taxprice;
-        totaltax += t.taxprice;
-      });
-      if (Object.keys(priceM).length === 0) return v("div", {
-        style: "display: flex; justify-content: space-between;"
-      }, v("div", null, this.props.t('tax')), v("div", {
-        style: `font-family: ${template.number_font_family}`
-      }, "0"));
-      return v("div", {
-        style: "display: flex; justify-content: space-between;"
-      }, v("div", null, this.props.t('tax')), v("div", {
-        style: `font-family: ${template.number_font_family}`
-      }, formatNumber(totaltax)));
-    });
-
-    _defineProperty(this, "renderPrintOverview", () => {
-      let order = this.props.order;
-      let template = this.props.template;
-      let $shipping = v("div", {
-        style: "flex: 1"
-      });
-      let shipping = order.shipping || {};
-      let addr = shipping.address || {};
-      let address = [addr.street, addr.ward, addr.district, addr.region, addr.country].filter(a => a).join(', ');
-
-      if (address) {
-        $shipping = v("div", {
-          style: "flex: 1;"
-        }, v("div", {
-          class: "order_print_label"
-        }, this.props.t('shipping_to')), v("div", null, address));
-      }
-
-      let user = order.user || {};
-      let userattrs = user.attributes || [];
-      let userdisplayname = getUserDisplayName(user);
-      let phoneattr = userattrs.find(attr => attr.key === 'phones') || {
-        key: 'phones',
-        text: ''
-      };
-      let phone = (addr.phone || '').trim();
-      phone = phone || (phoneattr.text || '').trim();
-      let left = (order.total || 0) - (order.payment_made || 0);
-      if (left <= 0) left = 0;
-      return v("div", {
-        style: "display: flex; margin-top: 30px"
-      }, v("div", {
-        style: "display: flex; flex-direction: column; justify-content: flex-end"
-      }, v("div", {
-        style: "flex: 1"
-      }), v("div", {
-        class: "order_print_label",
-        style: "margin-top: 10px"
-      }, this.props.t('customer')), v("div", null, userdisplayname), v("div", null, phone), $shipping), v("div", {
-        style: "flex: 1"
-      }), v("div", {
-        style: "display: flex; flex-direction: column; justify-content: flex-end; text-align: right"
-      }, v("div", {
-        style: "display: flex;"
-      }, v("div", {
-        class: "invoice_sublabel"
-      }, this.props.t('order_number')), "\xA0", v("div", {
-        style: "width: 100px"
-      }, order.number || order.id)), v("div", {
-        style: "display: flex;"
-      }, v("div", {
-        class: "invoice_sublabel"
-      }, this.props.t('invoice_date')), "\xA0", v("div", {
-        style: "width: 100px"
-      }, formatDate(order.invoice_date || order.created || Date.now(), 'yyyy/MM/dd'))), v("div", {
-        style: "display:flex"
-      }, v("div", {
-        class: "invoice_sublabel"
-      }, this.props.t('due_date')), "\xA0", v("div", {
-        style: "width: 100px"
-      }, formatDate(order.due_date || order.invoice_date || order.created || Date.now(), 'yyyy/MM/dd'))), v("div", {
-        style: "display: flex"
-      }, v("div", {
-        class: "invoice_sublabel"
-      }, this.props.t('balance_due')), "\xA0", v("div", {
-        style: `width: 100px; color: ${template.primary_color}; font-weight: 600`
-      }, formatNumber(left)))));
-    });
-
-    _defineProperty(this, "renderHeader", () => {
-      let order = this.props.order;
-      let acc = this.props.account;
-      let template = this.props.template;
-      return v("div", {
-        style: "display: flex"
-      }, v("div", {
-        style: "flex:1;"
-      }, v("div", {
-        style: ""
-      }, v("img", {
-        width: "120",
-        src: acc.logo_url
-      }), v("div", {
-        style: "margin-top: 10px"
-      }, v("div", null, v("b", {
-        style: "font-size: 18px"
-      }, acc.name), v("span", {
-        style: "color: #888; font-size: 13px"
-      }, "\xA0\xA0|\xA0\xA0", this.props.t.i18n(template.i18n_tagline, template.tagline))), v("div", {
-        style: "font-size: 13px; color: #888; margin-top: 0px"
-      }, acc.address, "\xA0\xA0\xB7\xA0\xA0", this.props.t('phn'), ":\xA0", acc.phone)))), v("div", {
-        style: "display: flex; flex-direction: column; justify-content: end"
-      }, v("div", {
-        style: `text-transform: uppercase; font-size: 32px;  font-weight: 600;  color: ${template.primary_color}; padding: 0px`
-      }, this.props.t('invoice'))));
-    });
   }
 
   render() {
@@ -3367,6 +3074,16 @@ class Main extends _ {
     }, this.renderSignature()));
   }
 
+  renderPaymentMethod = () => {
+    return v("div", {
+      style: "margin-top: 0.5cm"
+    }, v("div", {
+      style: "display: flex; align-items: center; margin-top: 20px"
+    }, v("div", {
+      class: "invoice_sublabel"
+    }, this.props.t('payment'))), v("div", null, "COD"));
+  };
+
   renderTerms() {
     let template = this.props.template;
     if (!template.terms_and_conditions) return null;
@@ -3376,16 +3093,275 @@ class Main extends _ {
       class: "d-flex",
       style: "align-items: center; margin-top: 20px"
     }, v("div", {
-      class: "order_print_label"
-    }, this.props.t('terms_and_conditions'))), v("div", {
-      class: "text__muted"
-    }, this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)));
+      class: "invoice_sublabel"
+    }, this.props.t('terms_and_conditions'))), v("div", null, this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)));
   }
 
+  renderSignature = () => {
+    let template = this.props.template;
+    return v("div", {
+      style: "margin-top: 30px"
+    }, v("div", {
+      style: "color: #888"
+    }, this.props.t.i18n(template.i18n_signature, template.signature)));
+  };
+  renderItem = (item, i) => {
+    let template = this.props.template;
+    let product = item.product || {};
+    let total = product.price * item.quantity;
+    let discount = 0;
+
+    if (item.discount_before_tax) {
+      if (item.discount_type == 'percentage') {
+        discount = total * (item.discount_percentage || 0) / 100;
+      } else if (item.discount_type == 'amount') {
+        if (item.discount > 0) discount = item.discount;
+      }
+    }
+
+    total -= discount;
+
+    if (total < 0) {
+      total = 0;
+    }
+
+    let itemtax = item.tax;
+    let tax = '0%';
+    if (itemtax) tax = (itemtax.percentage || 0) + '%';
+    return v("tr", null, v("td", {
+      style: "padding-left: 0; width: 20px; text-align: left"
+    }, i + 1), v("td", {
+      style: "vertical-align: top; padding: 0; white-space: pre-wrap; padding: 10px"
+    }, v("div", null, product.name), v("div", {
+      style: "color: #888"
+    }, item.note)), v("td", {
+      style: `width: 100px; text-align: right; padding: 0; height: 1px; padding: 10px; font-family: ${template.number_font_family}`
+    }, formatNumber(product.price)), v("td", {
+      style: "width: 50px; text-align: center; padding: 0; height: 1px;padding: 10px"
+    }, item.quantity), v("td", {
+      style: `width: 115px; text-align: right; padding-left: 0; padding-right: 0px; overflow: unset;font-family: ${template.number_font_family}`
+    }, formatNumber(total)));
+  };
+  renderItems = () => {
+    let acc = this.props.account;
+    let template = this.props.template;
+    let order = this.props.order;
+    let $header = v("tr", {
+      style: `background: ${template.secondary_color}; color: ${template.primary_color}`
+    }, v("th", {
+      style: "padding-left: 0;width: 20px; text-align: left"
+    }, "#"), v("th", {
+      style: "text-align: left"
+    }, this.props.t('product')), v("th", {
+      style: "width: 100px; text-align: right"
+    }, this.props.t('price')), v("th", {
+      style: "width: 50px; text-align: center"
+    }, this.props.t('qty')), v("th", {
+      style: "padding-right: 0;width: 115px; text-align: right"
+    }, "Th\xE0nh ti\u1EC1n"));
+    let items = order.items || [];
+    let $rows = items.map(this.renderItem);
+    let $adjustment = null;
+    let adjustment = order.adjustment || 0;
+    if (adjustment != 0 || order.adjustment_description) $adjustment = v("div", {
+      style: "align-items: center; display: flex; justify-content: space-between;"
+    }, v("div", {
+      style: "width: 140px"
+    }, order.adjustment_description || v("span", {
+      style: "color: #888"
+    }, this.props.t('empty'))), v("div", {
+      title: this.props.t('adjustment_desc')
+    }), v("div", {
+      style: "flex: 1",
+      style: "text-align: right"
+    }, formatNumber(adjustment)));
+    let $ship = null;
+
+    if (order.shipping) {
+      $ship = v("div", {
+        style: "display: flex; justify-content: space-between;"
+      }, v("div", {
+        class: "text-truncate"
+      }, this.props.t('shipping_fee')), v("div", {
+        style: `font-family: ${template.number_font_family}`
+      }, formatNumber(order.shipping.fee)));
+    }
+
+    let total = order.total;
+    let subtotal = order.subtotal;
+    let discountbeforetax = items.map(item => {
+      let discounttype = item.discount_type || 'percentage';
+      let price = item.product && item.product.price || 0;
+      let item_total = price * item.quantity;
+      return item_total - item.total;
+    }).reduce((s, a) => s + a, 0);
+    let $note = v("div", {
+      style: "flex: 1; padding: 0"
+    });
+
+    if (order.note) {
+      $note = v("div", {
+        style: "padding: 0; flex: 1"
+      }, v("div", null, this.props.t('note')), v("div", null, order.note));
+    }
+
+    let left = (order.total || 0) - (order.payment_made || 0);
+    if (left <= 0) left = 0;
+    let $discountbeforetax = null;
+
+    if (discountbeforetax) {
+      $discountbeforetax = v("div", {
+        style: "display: flex; justify-content: space-between; align-items: center"
+      }, v("div", {
+        style: "flex-shrink: 0"
+      }, this.props.t('discount_before_tax'), "\xA0"), v("div", {
+        style: `font-family: ${template.number_font_family}`
+      }, "-", formatNumber(discountbeforetax)));
+    }
+
+    let discounttype = order.discount_type || 'percentage';
+    let discount = 0;
+
+    if (discounttype == 'percentage') {
+      discount = '-' + (order.discount_percentage || 0) / 100 + '%';
+    } else {
+      discount = '-' + formatNumber(order.discount_amount);
+    }
+
+    let $discountaftertax = null;
+
+    if (discount) {
+      $discountaftertax = v("div", {
+        style: "display: flex; justify-content: space-between; align-items: center"
+      }, v("div", {
+        style: "flex-shrink: 0"
+      }, this.props.t('discount_after_tax'), "\xA0"), v("div", {
+        style: `font-family: ${template.number_font_family}`
+      }, discount));
+    }
+
+    return v("div", {
+      style: "margin-top: 30px; padding: 0px 2cm;"
+    }, v("div", {
+      style: "display: flex;align-items: center; margin-top: 20px; margin-bottom: 5px"
+    }, v("div", {
+      class: "invoice_sublabel"
+    }), v("div", {
+      style: "flex: 1"
+    }), v("div", null, this.props.t('currency'), ": ", order.currency || acc.currency || 'VND')), v("div", null, v("table", {
+      class: "order_print_table table mt-2",
+      cellspacing: "0",
+      cellpadding: "0"
+    }, $header, $rows)), v("div", {
+      class: "page_section",
+      style: "display: flex; margin-top: 10px"
+    }, $note, v("div", {
+      style: "width: 6cm; margin-left: 10px"
+    }, $discountbeforetax, v("div", {
+      style: "display: flex; justify-content: space-between;"
+    }, v("div", null, this.props.t('subtotal')), v("div", {
+      style: `font-family: ${template.number_font_family}`
+    }, formatNumber(subtotal))), $ship, v("div", {
+      style: "display: flex; justify-content: space-between;"
+    }, v("div", null, this.props.t('tax')), v("div", {
+      style: `font-family: ${template.number_font_family}`
+    }, formatNumber(order.total_tax))), $discountaftertax, $adjustment, v("div", {
+      style: "display: flex; justify-content: space-between;align-items: center; margin-top: 15px;"
+    }, v("b", {
+      style: "font-size: 18px"
+    }, this.props.t('total')), v("div", {
+      style: `font-size: 18px; font-weight: 600;font-family: ${template.number_font_family}`
+    }, formatNumber(total))), v("div", {
+      style: "display: flex; justify-content: space-between; "
+    }, v("div", null, this.props.t('paid_state')), v("div", {
+      style: `font-family: ${template.number_font_family}`
+    }, formatNumber(order.payment_made))), v("div", {
+      style: "display: flex; justify-content: space-between; "
+    }, v("div", null, this.props.t('balance_due')), v("div", {
+      style: `font-family: ${template.number_font_family}; color: ${template.primary_color}`
+    }, formatNumber(left))))));
+  };
+  renderPrintOverview = () => {
+    let order = this.props.order;
+    let template = this.props.template;
+    let $shipping = v("div", {
+      style: "flex: 1"
+    });
+    let shipping = order.shipping || {};
+    let addr = shipping.address || {};
+    let address = [addr.street, addr.ward, addr.district, addr.region, addr.country].filter(a => a).join(', ');
+
+    if (address) {
+      $shipping = v("div", {
+        style: "flex: 1;"
+      }, v("div", {
+        class: "invoice_sublabel mt-1"
+      }, this.props.t('shipping_to')), v("div", null, address));
+    }
+
+    let user = order.user || {};
+    let userattrs = user.attributes || [];
+    let userdisplayname = getUserDisplayName(user);
+    let phoneattr = userattrs.find(attr => attr.key === 'phones') || {
+      key: 'phones',
+      text: ''
+    };
+    let phone = (addr.phone || '').trim();
+    phone = phone || (phoneattr.text || '').trim();
+    let left = (order.total || 0) - (order.payment_made || 0);
+    if (left <= 0) left = 0;
+    return v("div", {
+      style: "display: flex; margin-top: 30px"
+    }, v("div", {
+      style: "display: flex; flex-direction: column; justify-content: flex-end"
+    }, v("div", {
+      style: "flex: 1"
+    }), v("div", {
+      class: "invoice_sublabel",
+      style: "margin-top: 10px"
+    }, this.props.t('customer')), v("div", null, userdisplayname), v("div", null, phone), $shipping), v("div", {
+      style: "flex: 1"
+    }), v("div", {
+      style: "display: flex; flex-direction: column; text-align: right"
+    }, v("div", null, v("div", {
+      class: "invoice_sublabel"
+    }, this.props.t('invoice_date')), v("div", null, formatDate(order.invoice_date || order.created || Date.now(), 'yyyy/MM/dd'))), v("div", null, v("div", {
+      class: "invoice_sublabel mt-1"
+    }, this.props.t('due_date')), v("div", null, formatDate(order.due_date || order.invoice_date || order.created || Date.now(), 'yyyy/MM/dd'))), v("div", {
+      style: "flex: 1"
+    })));
+  };
+  renderHeader = () => {
+    let order = this.props.order;
+    let acc = this.props.account;
+    let template = this.props.template;
+    return v("div", {
+      style: "display: flex"
+    }, v("div", {
+      style: "flex:1;"
+    }, v("div", {
+      style: ""
+    }, v("img", {
+      width: "120",
+      src: acc.logo_url
+    }), v("div", {
+      style: "margin-top: 10px"
+    }, v("div", null, v("b", {
+      style: "font-size: 18px"
+    }, acc.name), v("span", {
+      style: "color: #888; font-size: 13px"
+    }, "\xA0\xA0|\xA0\xA0", this.props.t.i18n(template.i18n_tagline, template.tagline))), v("div", {
+      style: "font-size: 13px; color: #888; margin-top: 0px"
+    }, acc.address, "\xA0\xA0\xB7\xA0\xA0", this.props.t('phn'), ":\xA0", acc.phone)))), v("div", {
+      style: "display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end"
+    }, v("div", {
+      style: `text-transform: uppercase; font-size: 32px;  font-weight: 600;  color: ${template.primary_color}; padding: 0px`
+    }, this.props.t('invoice')), v("div", {
+      class: "text__muted"
+    }, "#", order.number || order.id)));
+  };
 }
 ;// CONCATENATED MODULE: ./src/main.js
-function main_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -3397,18 +3373,6 @@ main_link.setAttribute('href', 'https://fonts.googleapis.com/css2?family=Dancing
 document.head.appendChild(main_link);
 class OrderTemplate {
   constructor() {
-    main_defineProperty(this, "_setLocale", async locale => {
-      if (this.locale === locale) return;
-      this.show = false;
-
-      this._render();
-
-      await downloadLanguage(this.account.id, locale);
-      this.show = true;
-
-      this._render();
-    });
-
     main_link;
     this.show = false;
 
@@ -3448,6 +3412,18 @@ class OrderTemplate {
       t: this.t
     }), this.$div);
   }
+
+  _setLocale = async locale => {
+    if (this.locale === locale) return;
+    this.show = false;
+
+    this._render();
+
+    await downloadLanguage(this.account.id, locale);
+    this.show = true;
+
+    this._render();
+  };
 
   update(account, order, template, locale) {
     this.order = order;
@@ -3516,112 +3492,191 @@ let input = {
   },
   order: {
     account_id: 'acqsulrowbxiugvginhw',
-    id: '211562',
+    id: '221098',
     shipping: {
       address: {
         account_id: 'acqsulrowbxiugvginhw',
-        user_id: 'usrefmjqwhamyjktbqghd',
-        id: 'adrejufuonskkmksvpci',
-        fullname: 'Mrs. Kiều Thanh',
-        email: 'thanh@gmail.com',
-        phone: '0364821895',
-        street: '222 Khương Trung',
-        district: 'Thanh Xuân',
-        region: 'Hà Nội',
-        created: 1638353944390,
+        user_id: 'usqsxanyuyvykzdcbxnss',
+        id: 'adrfidqxbnkajdjbyvxz',
+        fullname: 'Hallo',
+        email: 'john@yaro.vn',
+        phone: '0987814572',
+        street: 'Thôn Bùi Xá',
+        ward: 'Xã Trung Hòa',
+        district: 'Huyện Yên Mỹ',
+        address: '187 Thôn Bùi Xá',
+        created: 1641793137392,
         created_by: 'agqygncqpyaxoujpfc',
-        updated: 1638353944390,
-        updated_by: 'agqygncqpyaxoujpfc'
-      }
+        updated: 1642402820992,
+        updated_by: 'agqsulrowbxilyzhds',
+        country: 'Việt Nam',
+        province: 'Hưng Yên',
+        province_id: 'hy',
+        district_id: 'hy-ym',
+        ward_id: 'hy-ym-wa-th2'
+      },
+      pickup_address: {
+        account_id: 'acqsulrowbxiugvginhw',
+        id: 'ghn.2430494',
+        fullname: '0974716892',
+        phone: '0974716892',
+        is_warehouse: true,
+        from_shipping_provider: 'ghn',
+        from_shipping_shop_id: 'ghn.c94a6718fafe8714a64a9ad3eb6f072b7caf84f7',
+        last_integrated: 1642049049873,
+        title: '0974716892'
+      },
+      weight: 1000,
+      transport: 'road',
+      shipping_provider: 'private',
+      pick_amount: 2790000,
+      status_code: 'cancel',
+      data: {
+        ghtk: {
+          value: 2790000,
+          deliver_option: 'none'
+        }
+      },
+      index_incre: 1,
+      cancelled_by: 'agqsulrowbxilyzhds'
     },
-    note: 'Không dùng túi bóng để bảo vệ môi trường',
-    due_date: 1638348497687,
-    status: 'new',
+    status: 'confirmed',
+    shipping_status: 'delivery_success',
     payment_status: 'unpaid',
-    created: 1638348498737,
-    created_by: 'agqygncqpyaxoujpfc',
-    updated: 1638353997344,
+    created: 1642413338363,
+    created_by: 'agqsulrowbxilyzhds',
+    updated: 1642413427039,
     updated_by: 'agqygncqpyaxoujpfc',
     items: [{
       quantity: 1,
-      note: 'Khách cần lấy hàng ngay',
       product: {
         account_id: 'acqsulrowbxiugvginhw',
-        id: '2110082',
-        product_group_id: '2110082',
-        left_product_id: '2110082',
-        right_product_id: '2110082',
-        url: 'https://baohanhone.com/products/man-hinh-apple-watch-s8',
-        description: 'Sản phẩm này bán không nhiều nữa',
-        name: 'Màn Hình Apple Watch S8',
+        id: '2110079',
+        product_group_id: '2110079',
+        left_product_id: '2110079',
+        right_product_id: '2110079',
+        url: 'https://baohanhone.com/products/man-hinh-apple-watch-s2',
+        name: 'Màn Hình Apple Watch S2',
         i18n_name: {
-          vi_VN: 'Màn Hình Apple Watch S8'
+          vi_VN: 'Màn Hình Apple Watch S2'
         },
-        created: 1637912799523,
-        updated: 1637912799523,
+        created: 1637912799417,
+        updated: 1637912799417,
         created_by: 'agqsulrowbxilyzhds',
         updated_by: 'agqsulrowbxilyzhds',
-        image: 'https://vcdn.subiz-cdn.com/file/firegqzhvpwbzdudkxfd_acqsulrowbxiugvginhw',
-        images: ['https://vcdn.subiz-cdn.com/file/firegqzhvpwbzdudkxfd_acqsulrowbxiugvginhw'],
+        image: 'https://vcdn.subiz-cdn.com/file/firegqkopydrkusdxzzl_acqsulrowbxiugvginhw',
+        images: ['https://vcdn.subiz-cdn.com/file/firegqkopydrkusdxzzl_acqsulrowbxiugvginhw'],
         visibility: 'published',
-        sku: 'dienthoainew_5265',
-        price: 6490000,
-        stock: 84
+        sku: '1032231',
+        price: 2790000,
+        stock: 64,
+        tax: {
+          account_id: 'acqsulrowbxiugvginhw',
+          id: 'taregastxfusoaqykqal',
+          name: 'V.A.T',
+          i18n_name: {
+            en_US: 'GGTT',
+            ja_JP: '付加価値税',
+            th_TH: 'ภาษีมูลค่าเพิ่ม',
+            vi_VN: 'V.A.T',
+            zh_CN: '增值税'
+          },
+          percentage: 1000,
+          type: 'tax',
+          created: 1595816243000,
+          created_by: 'agqygncqpyaxoujpfc',
+          updated: 1638176240585,
+          updated_by: 'agqsulrowbxilyzhds'
+        }
       },
-      total: 6490000,
-      fpv_total: 6490000195584
-    }, {
-      quantity: 1,
-      product: {
-        account_id: 'acqsulrowbxiugvginhw',
-        id: '2110080',
-        product_group_id: '2110080',
-        left_product_id: '2110080',
-        right_product_id: '2110080',
-        url: 'https://baohanhone.com/products/apple-watch-series-4-duoc-nang-cap-nhu-the-nao-so-voi-watch-series-3',
-        name: 'Apple Watch Series 4 Được Nâng Cấp Như Thế Nào so Với Watch Series 3',
-        i18n_name: {
-          vi_VN: 'Apple Watch Series 4 Được Nâng Cấp Như Thế Nào so Với Watch Series 3'
-        },
-        created: 1637912799446,
-        updated: 1637912799446,
-        created_by: 'agqsulrowbxilyzhds',
-        updated_by: 'agqsulrowbxilyzhds',
-        image: 'https://vcdn.subiz-cdn.com/file/firegqoaunmehylnqfts_acqsulrowbxiugvginhw',
-        images: ['https://vcdn.subiz-cdn.com/file/firegqoaunmehylnqfts_acqsulrowbxiugvginhw'],
-        visibility: 'published',
-        sku: 'apple_2159',
-        price: 3200000,
-        stock: 9
-      },
-      total: 3200000,
-      fpv_total: 3199999934464
+      total: 2690000,
+      fpv_total: 2690000093184,
+      discount_amount: 100000,
+      discount_type: 'amount',
+      discount_before_tax: true,
+      total_tax: 269000,
+      fpv_total_tax: 268999999488
     }],
-    subtotal: 9690000,
-    fpv_subtotal: 9689999867904,
-    total: 9690000,
-    fpv_total: 9689999867904,
-    pos_id: 'psreakoakjggfhlibtu',
-    channel: 'subiz',
-    channel_touchpoint: 'localhost',
-    releated_conversations: ['csrefmjrutfizfnzev'],
+    subtotal: 2690000,
+    fpv_subtotal: 2690000093184,
+    total: 2919000,
+    fpv_total: 2918999916544,
+    discount_amount: 20000,
+    fpv_discount_amount: 20000000000,
+    discount_type: 'amount',
     user: {
-      id: 'usrefmjqwhamyjktbqghd',
+      id: 'usqsxanyuyvykzdcbxnss',
+      account_id: 'acqsulrowbxiugvginhw',
       attributes: [{
+        key: 'phones',
+        text: '87995213'
+      }, {
+        key: 'first_interact',
+        text: 'start_conversation'
+      }, {
+        key: 'focused'
+      }, {
+        key: 'total_sessions',
+        number: 1
+      }, {
         key: 'created',
-        datetime: '2021-11-24T09:37:25Z'
+        datetime: '2020-07-31T07:07:44Z'
+      }, {
+        key: 'published_seen',
+        datetime: '2020-09-03T02:11:44Z'
+      }, {
+        key: 'total_conversations',
+        number: 1
+      }, {
+        key: 'acqsulrowbxiugvginhw_subizv4_subikon',
+        datetime: '2020-07-31T07:07:44Z'
+      }, {
+        key: 'is_lead',
+        boolean: true
+      }, {
+        key: 'interacted',
+        datetime: '2020-09-03T02:11:44Z'
       }, {
         key: 'fullname',
-        text: 'Mrs. Kiều Thanh'
-      }, {
-        key: 'phones',
-        text: '0364821895'
+        text: 'Hallo'
       }, {
         key: 'emails',
-        text: 'thanh@gmail.com'
+        text: 'john@yaro.vn'
+      }, {
+        key: 'seen',
+        datetime: '2020-09-03T02:11:44Z'
+      }, {
+        key: 'modified',
+        datetime: '2020-09-03T02:11:44Z'
+      }, {
+        key: 'latest_session_id',
+        text: 'ssqsxanyzkmrzfdnhedml'
+      }, {
+        key: 'channel_source',
+        text: 'subizv4.subikon'
+      }, {
+        key: 'first_session_source',
+        text: 'direct'
+      }, {
+        key: 'first_session_referer'
+      }, {
+        key: 'first_session_tracking_link'
+      }, {
+        key: 'latest_session_source',
+        text: 'direct'
+      }, {
+        key: 'latest_session_referer'
+      }, {
+        key: 'latest_session_tracking_link'
       }],
-      lead_owners: ['agqygncqpyaxoujpfc']
+      lead_owners: ['agqsulrpamkxgpqidx', 'agqsulrpcaysnoqnrm', 'agqsulrowbxilyzhds', 'agqsuorpukqwddqrtn'],
+      is_lead: true
     },
+    adjustment_description: 'Thanh test',
+    adjustment: -20000,
+    fpv_adjustment: -20000000000,
+    total_tax: 269000,
+    fpv_total_tax: 268999999488,
     currency_rate: 1
   },
   template: {

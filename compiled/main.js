@@ -11,8 +11,6 @@ var _template = _interopRequireDefault(require("./template.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 const ajax = require('@subiz/ajax');
 
 var link = document.createElement('link');
@@ -22,18 +20,6 @@ document.head.appendChild(link);
 
 class OrderTemplate {
   constructor() {
-    _defineProperty(this, "_setLocale", async locale => {
-      if (this.locale === locale) return;
-      this.show = false;
-
-      this._render();
-
-      await downloadLanguage(this.account.id, locale);
-      this.show = true;
-
-      this._render();
-    });
-
     link;
     this.show = false;
 
@@ -73,6 +59,18 @@ class OrderTemplate {
       t: this.t
     }), this.$div);
   }
+
+  _setLocale = async locale => {
+    if (this.locale === locale) return;
+    this.show = false;
+
+    this._render();
+
+    await downloadLanguage(this.account.id, locale);
+    this.show = true;
+
+    this._render();
+  };
 
   update(account, order, template, locale) {
     this.order = order;
