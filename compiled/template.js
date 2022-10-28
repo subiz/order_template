@@ -4,15 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
 var _preact = require("preact");
-
 var util = _interopRequireWildcard(require("./util.js"));
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 let gstyle = `
 .text__muted {
 	color: #888;
@@ -51,12 +46,10 @@ margin-top:10px
 	border-bottom: 1px solid #ddd;
 }
 `;
-
 class Main extends _preact.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     let template = this.props.template;
     return (0, _preact.h)("div", {
@@ -78,17 +71,14 @@ class Main extends _preact.Component {
       style: "padding: 0 2cm;"
     }, this.renderSignature()));
   }
-
   renderPaymentMethod = () => {
     let order = this.props.order || {};
     let $method = (0, _preact.h)("div", null, this.props.t('no_information'));
-
     if (order.payment_method === 'cash') {
       $method = (0, _preact.h)("div", null, this.props.t(`payment_method_cod`));
     } else if (order.payment_method === 'bank_transfer') {
       $method = (0, _preact.h)("div", null, this.props.t(`payment_method_bank_transfer`));
     }
-
     let method = order.payment_method;
     return (0, _preact.h)("div", {
       style: "margin-top: 0.5cm"
@@ -98,7 +88,6 @@ class Main extends _preact.Component {
       class: "invoice_sublabel"
     }, this.props.t('payment'))), $method);
   };
-
   renderTerms() {
     let template = this.props.template;
     if (!template.terms_and_conditions) return null;
@@ -111,7 +100,6 @@ class Main extends _preact.Component {
       class: "invoice_sublabel"
     }, this.props.t('terms_and_conditions'))), (0, _preact.h)("div", null, this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)));
   }
-
   renderSignature = () => {
     let template = this.props.template;
     return (0, _preact.h)("div", {
@@ -125,7 +113,6 @@ class Main extends _preact.Component {
     let product = item.product || {};
     let total = product.price * item.quantity;
     let discount = 0;
-
     if (item.discount_before_tax) {
       if (item.discount_type == 'percentage') {
         discount = total * (item.discount_percentage || 0) / 100;
@@ -133,13 +120,10 @@ class Main extends _preact.Component {
         if (item.discount > 0) discount = item.discount;
       }
     }
-
     total -= discount;
-
     if (total < 0) {
       total = 0;
     }
-
     let itemtax = item.tax;
     let tax = '0%';
     if (itemtax) tax = (itemtax.percentage || 0) + '%';
@@ -191,7 +175,6 @@ class Main extends _preact.Component {
       style: "text-align: right"
     }, util.formatNumber(adjustment)));
     let $ship = null;
-
     if (order.shipping) {
       $ship = (0, _preact.h)("div", {
         style: "display: flex; justify-content: space-between;"
@@ -213,17 +196,14 @@ class Main extends _preact.Component {
     let $note = (0, _preact.h)("div", {
       style: "flex: 1; padding: 0"
     });
-
     if (order.note) {
       $note = (0, _preact.h)("div", {
         style: "padding: 0; flex: 1"
       }, (0, _preact.h)("div", null, this.props.t('note')), (0, _preact.h)("div", null, order.note));
     }
-
     let left = (order.total || 0) - (order.payment_made || 0);
     if (left <= 0) left = 0;
     let $discountbeforetax = null;
-
     if (discountbeforetax) {
       $discountbeforetax = (0, _preact.h)("div", {
         style: "display: flex; justify-content: space-between; align-items: center"
@@ -233,18 +213,14 @@ class Main extends _preact.Component {
         style: `font-family: ${template.number_font_family}`
       }, "-", util.formatNumber(discountbeforetax)));
     }
-
     let discounttype = order.discount_type || 'percentage';
     let discount = 0;
-
     if (discounttype == 'percentage') {
       discount = '-' + (order.discount_percentage || 0) / 100 + '%';
     } else {
       discount = '-' + util.formatNumber(order.discount_amount);
     }
-
     let $discountaftertax = null;
-
     if (discount) {
       $discountaftertax = (0, _preact.h)("div", {
         style: "display: flex; justify-content: space-between; align-items: center"
@@ -254,7 +230,6 @@ class Main extends _preact.Component {
         style: `font-family: ${template.number_font_family}`
       }, discount));
     }
-
     return (0, _preact.h)("div", {
       style: "margin-top: 30px; padding: 0px 2cm;"
     }, (0, _preact.h)("div", {
@@ -305,7 +280,6 @@ class Main extends _preact.Component {
     let shipping = order.shipping || {};
     let addr = shipping.address || {};
     let address = [addr.address, addr.ward, addr.district, addr.region, addr.country].filter(a => a).join(', ');
-
     if (address) {
       $shipping = (0, _preact.h)("div", {
         style: "flex: 1;"
@@ -313,7 +287,6 @@ class Main extends _preact.Component {
         class: "invoice_sublabel mt-1"
       }, this.props.t('shipping_to')), (0, _preact.h)("div", null, address));
     }
-
     let user = order.user || {};
     let userattrs = user.attributes || [];
     let userdisplayname = util.getUserDisplayName(user);
@@ -376,5 +349,4 @@ class Main extends _preact.Component {
     }, "#", order.number || order.id)));
   };
 }
-
 exports.default = Main;
