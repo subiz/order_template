@@ -80,13 +80,23 @@ class Main extends _preact.Component {
   }
 
   renderPaymentMethod = () => {
+    let order = this.props.order || {};
+    let $method = (0, _preact.h)("div", null, this.props.t('no_information'));
+
+    if (order.payment_method === 'cash') {
+      $method = (0, _preact.h)("div", null, this.props.t(`payment_method_cod`));
+    } else if (order.payment_method === 'bank_transfer') {
+      $method = (0, _preact.h)("div", null, this.props.t(`payment_method_bank_transfer`));
+    }
+
+    let method = order.payment_method;
     return (0, _preact.h)("div", {
       style: "margin-top: 0.5cm"
     }, (0, _preact.h)("div", {
       style: "display: flex; align-items: center; margin-top: 20px"
     }, (0, _preact.h)("div", {
       class: "invoice_sublabel"
-    }, this.props.t('payment'))), (0, _preact.h)("div", null, "COD"));
+    }, this.props.t('payment'))), $method);
   };
 
   renderTerms() {
@@ -294,7 +304,7 @@ class Main extends _preact.Component {
     });
     let shipping = order.shipping || {};
     let addr = shipping.address || {};
-    let address = [addr.street, addr.ward, addr.district, addr.region, addr.country].filter(a => a).join(', ');
+    let address = [addr.address, addr.ward, addr.district, addr.region, addr.country].filter(a => a).join(', ');
 
     if (address) {
       $shipping = (0, _preact.h)("div", {

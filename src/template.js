@@ -72,12 +72,22 @@ export default class Main extends Component {
 	}
 
 	renderPaymentMethod = () => {
+		let order = this.props.order || {}
+
+		let $method = <div>{this.props.t('no_information')}</div>
+		if (order.payment_method === 'cash') {
+			$method = <div>{this.props.t(`payment_method_cod`)}</div>
+		} else if (order.payment_method === 'bank_transfer') {
+			$method = <div>{this.props.t(`payment_method_bank_transfer`)}</div>
+		}
+		let method = order.payment_method
+
 		return (
 			<div style='margin-top: 0.5cm'>
 				<div style='display: flex; align-items: center; margin-top: 20px'>
 					<div class='invoice_sublabel'>{this.props.t('payment')}</div>
 				</div>
-				<div>COD</div>
+				{$method}
 			</div>
 		)
 	}
@@ -228,9 +238,9 @@ export default class Main extends Component {
 		let discounttype = order.discount_type || 'percentage'
 		let discount = 0
 		if (discounttype == 'percentage') {
-			discount = '-'+(order.discount_percentage || 0) / 100 + '%'
+			discount = '-' + (order.discount_percentage || 0) / 100 + '%'
 		} else {
-			discount = '-'+util.formatNumber(order.discount_amount)
+			discount = '-' + util.formatNumber(order.discount_amount)
 		}
 		let $discountaftertax = null
 		if (discount) {
@@ -301,7 +311,7 @@ export default class Main extends Component {
 		let $shipping = <div style='flex: 1' />
 		let shipping = order.shipping || {}
 		let addr = shipping.address || {}
-		let address = [addr.street, addr.ward, addr.district, addr.region, addr.country].filter((a) => a).join(', ')
+		let address = [addr.address, addr.ward, addr.district, addr.region, addr.country].filter((a) => a).join(', ')
 		if (address) {
 			$shipping = (
 				<div style='flex: 1;'>
