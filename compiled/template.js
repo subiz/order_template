@@ -73,13 +73,13 @@ class Main extends _preact.Component {
   }
   renderPaymentMethod = () => {
     let order = this.props.order || {};
+    let method = order.payment_method || {};
     let $method = (0, _preact.h)("div", null, this.props.t('no_information'));
-    if (order.payment_method === 'cash') {
+    if (method.method === 'cash') {
       $method = (0, _preact.h)("div", null, this.props.t(`payment_method_cod`));
-    } else if (order.payment_method === 'bank_transfer') {
+    } else if (method.method === 'bank_transfer') {
       $method = (0, _preact.h)("div", null, this.props.t(`payment_method_bank_transfer`));
     }
-    let method = order.payment_method;
     return (0, _preact.h)("div", {
       style: "margin-top: 0.5cm"
     }, (0, _preact.h)("div", {

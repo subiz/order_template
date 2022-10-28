@@ -3012,13 +3012,13 @@ class Main extends d {
   }
   renderPaymentMethod = () => {
     let order = this.props.order || {};
+    let method = order.payment_method || {};
     let $method = h("div", null, this.props.t('no_information'));
-    if (order.payment_method === 'cash') {
+    if (method.method === 'cash') {
       $method = h("div", null, this.props.t(`payment_method_cod`));
-    } else if (order.payment_method === 'bank_transfer') {
+    } else if (method.method === 'bank_transfer') {
       $method = h("div", null, this.props.t(`payment_method_bank_transfer`));
     }
-    let method = order.payment_method;
     return h("div", {
       style: "margin-top: 0.5cm"
     }, h("div", {

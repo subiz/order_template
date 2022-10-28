@@ -73,14 +73,14 @@ export default class Main extends Component {
 
 	renderPaymentMethod = () => {
 		let order = this.props.order || {}
+		let method = order.payment_method || {}
 
 		let $method = <div>{this.props.t('no_information')}</div>
-		if (order.payment_method === 'cash') {
+		if (method.method === 'cash') {
 			$method = <div>{this.props.t(`payment_method_cod`)}</div>
-		} else if (order.payment_method === 'bank_transfer') {
+		} else if (method.method === 'bank_transfer') {
 			$method = <div>{this.props.t(`payment_method_bank_transfer`)}</div>
 		}
-		let method = order.payment_method
 
 		return (
 			<div style='margin-top: 0.5cm'>
