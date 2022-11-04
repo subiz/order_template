@@ -279,7 +279,7 @@ class Main extends _preact.Component {
     });
     let shipping = order.shipping || {};
     let addr = shipping.address || {};
-    let address = [addr.address, addr.ward, addr.district, addr.region, addr.country].filter(a => a).join(', ');
+    let address = [addr.address, addr.ward, addr.district, addr.province, addr.country].filter(a => a).join(', ');
     if (address) {
       $shipping = (0, _preact.h)("div", {
         style: "flex: 1;"
