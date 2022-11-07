@@ -3121,7 +3121,7 @@ class Main extends d {
         class: "text-truncate"
       }, this.props.t('shipping_fee')), h("div", {
         style: `font-family: ${template.number_font_family}`
-      }, formatNumber(order.shipping.fee)));
+      }, formatNumber(order.shipping.nominal_fee)));
     }
 
     let total = order.total;
@@ -3152,12 +3152,14 @@ class Main extends d {
         style: `font-family: ${template.number_font_family}`
       }, "-", formatNumber(discountbeforetax)));
     }
-    let discounttype = order.discount_type || 'percentage';
     let discount = 0;
-    if (discounttype == 'percentage') {
-      discount = '-' + (order.discount_percentage || 0) / 100 + '%';
-    } else {
-      discount = '-' + formatNumber(order.discount_amount);
+    let discount_note = '';
+    if (order.discount_type === 'percentage') {
+      discount = order._computed_discount;
+      discount_note = `(${(order.discount_percentage || 0) / 100}%)`;
+    }
+    if (order.discount_type === 'amount') {
+      discount = order.discount_amount;
     }
     let $discountaftertax = null;
     if (discount) {
@@ -3165,9 +3167,9 @@ class Main extends d {
         style: "display: flex; justify-content: space-between; align-items: center"
       }, h("div", {
         style: "flex-shrink: 0"
-      }, this.props.t('discount_after_tax'), "\xA0"), h("div", {
+      }, this.props.t('discount_after_tax'), "\xA0", discount_note), h("div", {
         style: `font-family: ${template.number_font_family}`
-      }, discount));
+      }, "-", formatNumber(discount)));
     }
     return h("div", {
       style: "margin-top: 30px; padding: 0px 2cm;"
@@ -3185,7 +3187,7 @@ class Main extends d {
       class: "page_section",
       style: "display: flex; margin-top: 10px"
     }, $note, h("div", {
-      style: "width: 6cm; margin-left: 10px"
+      style: "width: 7cm; margin-left: 10px"
     }, $discountbeforetax, h("div", {
       style: "display: flex; justify-content: space-between;"
     }, h("div", null, this.props.t('subtotal')), h("div", {

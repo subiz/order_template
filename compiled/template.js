@@ -182,7 +182,7 @@ class Main extends _preact.Component {
         class: "text-truncate"
       }, this.props.t('shipping_fee')), (0, _preact.h)("div", {
         style: `font-family: ${template.number_font_family}`
-      }, util.formatNumber(order.shipping.fee)));
+      }, util.formatNumber(order.shipping.nominal_fee)));
     }
 
     let total = order.total;
@@ -213,12 +213,14 @@ class Main extends _preact.Component {
         style: `font-family: ${template.number_font_family}`
       }, "-", util.formatNumber(discountbeforetax)));
     }
-    let discounttype = order.discount_type || 'percentage';
     let discount = 0;
-    if (discounttype == 'percentage') {
-      discount = '-' + (order.discount_percentage || 0) / 100 + '%';
-    } else {
-      discount = '-' + util.formatNumber(order.discount_amount);
+    let discount_note = '';
+    if (order.discount_type === 'percentage') {
+      discount = order._computed_discount;
+      discount_note = `(${(order.discount_percentage || 0) / 100}%)`;
+    }
+    if (order.discount_type === 'amount') {
+      discount = order.discount_amount;
     }
     let $discountaftertax = null;
     if (discount) {
@@ -226,9 +228,9 @@ class Main extends _preact.Component {
         style: "display: flex; justify-content: space-between; align-items: center"
       }, (0, _preact.h)("div", {
         style: "flex-shrink: 0"
-      }, this.props.t('discount_after_tax'), "\xA0"), (0, _preact.h)("div", {
+      }, this.props.t('discount_after_tax'), "\xA0", discount_note), (0, _preact.h)("div", {
         style: `font-family: ${template.number_font_family}`
-      }, discount));
+      }, "-", util.formatNumber(discount)));
     }
     return (0, _preact.h)("div", {
       style: "margin-top: 30px; padding: 0px 2cm;"
@@ -246,7 +248,7 @@ class Main extends _preact.Component {
       class: "page_section",
       style: "display: flex; margin-top: 10px"
     }, $note, (0, _preact.h)("div", {
-      style: "width: 6cm; margin-left: 10px"
+      style: "width: 7cm; margin-left: 10px"
     }, $discountbeforetax, (0, _preact.h)("div", {
       style: "display: flex; justify-content: space-between;"
     }, (0, _preact.h)("div", null, this.props.t('subtotal')), (0, _preact.h)("div", {

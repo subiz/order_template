@@ -194,7 +194,9 @@ export default class Main extends Component {
 			$ship = (
 				<div style='display: flex; justify-content: space-between;'>
 					<div class='text-truncate'>{this.props.t('shipping_fee')}</div>
-					<div style={`font-family: ${template.number_font_family}`}>{util.formatNumber(order.shipping.fee)}</div>
+					<div style={`font-family: ${template.number_font_family}`}>
+						{util.formatNumber(order.shipping.nominal_fee)}
+					</div>
 				</div>
 			)
 		}
@@ -235,19 +237,23 @@ export default class Main extends Component {
 			)
 		}
 
-		let discounttype = order.discount_type || 'percentage'
 		let discount = 0
-		if (discounttype == 'percentage') {
-			discount = '-' + (order.discount_percentage || 0) / 100 + '%'
-		} else {
-			discount = '-' + util.formatNumber(order.discount_amount)
+		let discount_note = ''
+		if (order.discount_type === 'percentage') {
+			discount = order._computed_discount
+			discount_note = `(${(order.discount_percentage || 0) / 100}%)`
+		}
+		if (order.discount_type === 'amount') {
+			discount = order.discount_amount
 		}
 		let $discountaftertax = null
 		if (discount) {
 			$discountaftertax = (
 				<div style='display: flex; justify-content: space-between; align-items: center'>
-					<div style='flex-shrink: 0'>{this.props.t('discount_after_tax')}&nbsp;</div>
-					<div style={`font-family: ${template.number_font_family}`}>{discount}</div>
+					<div style='flex-shrink: 0'>
+						{this.props.t('discount_after_tax')}&nbsp;{discount_note}
+					</div>
+					<div style={`font-family: ${template.number_font_family}`}>-{util.formatNumber(discount)}</div>
 				</div>
 			)
 		}
@@ -269,7 +275,7 @@ export default class Main extends Component {
 
 				<div class='page_section' style='display: flex; margin-top: 10px'>
 					{$note}
-					<div style='width: 6cm; margin-left: 10px'>
+					<div style='width: 7cm; margin-left: 10px'>
 						{$discountbeforetax}
 						<div style='display: flex; justify-content: space-between;'>
 							<div>{this.props.t('subtotal')}</div>
