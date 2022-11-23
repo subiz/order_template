@@ -182,8 +182,7 @@ export default class Main extends Component {
 					<div style='width: 140px'>
 						{order.adjustment_description || <span style='color: #888'>{this.props.t('empty')}</span>}
 					</div>
-					<div title={this.props.t('adjustment_desc')}></div>
-					<div style='flex: 1' style='text-align: right'>
+					<div style={`font-family: ${template.number_font_family}`}>
 						{util.formatNumber(adjustment)}
 					</div>
 				</div>
