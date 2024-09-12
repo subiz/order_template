@@ -137,11 +137,17 @@ export default class Main extends Component {
 		let tax = '0%'
 		if (itemtax) tax = (itemtax.percentage || 0) + '%'
 
+		let $props = null
+		if (Array.isArray(product.props) && product.props.length) {
+			let propsText = (product.props || []).map(prop => prop.value).join(' - ')
+			$props = <div style='color: #888; font-size: 14px;'>{propsText}</div>
+		}
 		return (
 			<tr>
 				<td style='padding-left: 0; width: 20px; text-align: left'>{i + 1}</td>
 				<td style='vertical-align: top; padding: 0; white-space: pre-wrap; padding: 10px'>
 					<div>{product.name}</div>
+					{$props}
 					<div style='color: #888'>{item.note}</div>
 				</td>
 				<td
@@ -182,9 +188,7 @@ export default class Main extends Component {
 					<div style='width: 140px'>
 						{order.adjustment_description || <span style='color: #888'>{this.props.t('empty')}</span>}
 					</div>
-					<div style={`font-family: ${template.number_font_family}`}>
-						{util.formatNumber(adjustment)}
-					</div>
+					<div style={`font-family: ${template.number_font_family}`}>{util.formatNumber(adjustment)}</div>
 				</div>
 			)
 
