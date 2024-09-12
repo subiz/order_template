@@ -8,7 +8,7 @@ exports.getUserDisplayName = getUserDisplayName;
 exports.getUserTextAttr = getUserTextAttr;
 var _dateFns = require("date-fns");
 var _accounting = _interopRequireDefault(require("accounting"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function getUserTextAttr(user, key) {
   if (!user || !user.attributes) return;
   for (var i in user.attributes) {
@@ -38,7 +38,5 @@ function getUserDisplayName(user) {
   }
   return name.trim();
 }
-var formatNumber = _accounting.default.formatNumber;
-exports.formatNumber = formatNumber;
-var formatDate = _dateFns.format;
-exports.formatDate = formatDate;
+var formatNumber = exports.formatNumber = _accounting.default.formatNumber;
+var formatDate = exports.formatDate = _dateFns.format;

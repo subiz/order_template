@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _preact = require("preact");
 var util = _interopRequireWildcard(require("./util.js"));
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
 let gstyle = `
 .text__muted {
 	color: #888;
@@ -127,11 +127,18 @@ class Main extends _preact.Component {
     let itemtax = item.tax;
     let tax = '0%';
     if (itemtax) tax = (itemtax.percentage || 0) + '%';
+    let $props = null;
+    if (Array.isArray(product.props) && product.props.length) {
+      let propsText = (product.props || []).map(prop => prop.value).join(' - ');
+      $props = (0, _preact.h)("div", {
+        style: "color: #888; font-size: 14px;"
+      }, propsText);
+    }
     return (0, _preact.h)("tr", null, (0, _preact.h)("td", {
       style: "padding-left: 0; width: 20px; text-align: left"
     }, i + 1), (0, _preact.h)("td", {
       style: "vertical-align: top; padding: 0; white-space: pre-wrap; padding: 10px"
-    }, (0, _preact.h)("div", null, product.name), (0, _preact.h)("div", {
+    }, (0, _preact.h)("div", null, product.name), $props, (0, _preact.h)("div", {
       style: "color: #888"
     }, item.note)), (0, _preact.h)("td", {
       style: `width: 100px; text-align: right; padding: 0; height: 1px; padding: 10px; font-family: ${template.number_font_family}`
@@ -169,10 +176,7 @@ class Main extends _preact.Component {
     }, order.adjustment_description || (0, _preact.h)("span", {
       style: "color: #888"
     }, this.props.t('empty'))), (0, _preact.h)("div", {
-      title: this.props.t('adjustment_desc')
-    }), (0, _preact.h)("div", {
-      style: "flex: 1",
-      style: "text-align: right"
+      style: `font-family: ${template.number_font_family}`
     }, util.formatNumber(adjustment)));
     let $ship = null;
     if (order.shipping) {
@@ -184,7 +188,6 @@ class Main extends _preact.Component {
         style: `font-family: ${template.number_font_family}`
       }, util.formatNumber(order.shipping.nominal_fee)));
     }
-
     let total = order.total;
     let subtotal = order.subtotal;
     let discountbeforetax = items.map(item => {

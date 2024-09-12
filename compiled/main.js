@@ -6,9 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _preact = require("preact");
 var _template = _interopRequireDefault(require("./template.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 const ajax = require('@subiz/ajax');
-
 var link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');
 link.setAttribute('href', 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inconsolata:wght@300;400;500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Signika:wght@300;400;500;600&family=Source+Serif+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Yeseva+One&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
@@ -17,7 +16,6 @@ class OrderTemplate {
   constructor() {
     link;
     this.show = false;
-
     this.t = key => {
       if (this.locale === 'debug') return `{{${key}}}`;
       let messages = langMessages[this.locale] || [];
@@ -53,7 +51,6 @@ class OrderTemplate {
     if (this.locale === locale) return;
     this.show = false;
     this._render();
-
     await downloadLanguage(this.account.id, locale);
     this.show = true;
     this._render();
