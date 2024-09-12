@@ -1,6 +1,6 @@
 {
 	"name": "@subiz/order_template",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"description": "subiz order template",
 	"main": "./compiled/main.js",
 	"scripts": {
@@ -8,28 +8,28 @@
 		"build": "ENV=prod npx webpack --config webpack.conf.js && rm -rf compiled && npx babel --out-dir=compiled src"
 	},
 	"dependencies": {
-		"@subiz/ajax": "^3.0.12",
+		"@subiz/ajax": "^3.0.18",
 		"accounting": "^0.4.1",
-		"date-fns": "^2.29.3",
-		"preact": "^10.11.2"
+		"date-fns": "^3.6.0",
+		"preact": "10.19.3"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.19.3",
-		"@babel/core": "^7.19.6",
+		"@babel/cli": "^7.25.6",
+		"@babel/core": "^7.25.2",
 		"@babel/plugin-proposal-class-properties": "^7.18.6",
-		"@babel/plugin-transform-react-jsx": "^7.19.0",
-		"@babel/preset-env": "^7.19.4",
-		"babel-loader": "^9.0.0",
+		"@babel/plugin-transform-react-jsx": "^7.25.2",
+		"@babel/preset-env": "^7.25.4",
+		"babel-loader": "^9.1.3",
 		"babel-plugin-syntax-jsx": "^6.18.0",
-		"core-js": "^3.26.0",
+		"core-js": "^3.38.1",
 		"file-loader": "^6.2.0",
-		"html-webpack-plugin": "^5.5.0",
-		"prettier": "^2.7.1",
-		"puppeteer": "^19.2.0",
-		"webpack": "^5.74.0",
-		"webpack-bundle-analyzer": "^4.7.0",
-		"webpack-cli": "^4.10.0",
-		"webpack-dev-server": "^4.11.1"
+		"html-webpack-plugin": "^5.6.0",
+		"prettier": "^3.3.3",
+		"puppeteer": "^23.3.0",
+		"webpack": "^5.94.0",
+		"webpack-bundle-analyzer": "^4.10.2",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^5.1.0"
 	},
 	"repository": {
 		"type": "git",
