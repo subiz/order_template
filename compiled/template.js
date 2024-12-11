@@ -98,7 +98,9 @@ class Main extends _preact.Component {
       style: "align-items: center; margin-top: 20px"
     }, (0, _preact.h)("div", {
       class: "invoice_sublabel"
-    }, this.props.t('terms_and_conditions'))), (0, _preact.h)("div", null, this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)));
+    }, this.props.t('terms_and_conditions'))), (0, _preact.h)("div", {
+      style: "white-space: pre-wrap"
+    }, this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)));
   }
   renderSignature = () => {
     let template = this.props.template;

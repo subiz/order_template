@@ -3696,7 +3696,9 @@ class Main extends b {
       style: "align-items: center; margin-top: 20px"
     }, y("div", {
       class: "invoice_sublabel"
-    }, this.props.t('terms_and_conditions'))), y("div", null, this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)));
+    }, this.props.t('terms_and_conditions'))), y("div", {
+      style: "white-space: pre-wrap"
+    }, this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)));
   }
   renderSignature = () => {
     let template = this.props.template;

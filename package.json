@@ -1,6 +1,6 @@
 {
 	"name": "@subiz/order_template",
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"description": "subiz order template",
 	"main": "./compiled/main.js",
 	"scripts": {
