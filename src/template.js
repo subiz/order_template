@@ -100,7 +100,7 @@ export default class Main extends Component {
 				<div class='d-flex' style='align-items: center; margin-top: 20px'>
 					<div class='invoice_sublabel'>{this.props.t('terms_and_conditions')}</div>
 				</div>
-				<div>{this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)}</div>
+				<div style="white-space: pre-wrap">{this.props.t.i18n(template.i18n_terms_and_conditions, template.terms_and_conditions)}</div>
 			</div>
 		)
 	}
